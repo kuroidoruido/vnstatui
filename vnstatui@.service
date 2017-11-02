@@ -1,0 +1,14 @@
+[Unit]
+Description=Lightweight WebUI for vnstat on %I
+After=vnstat.service
+Wants=vnstat.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/vnstatui %i
+ExecStop=/usr/bin/pkill vnstatui
+RemainAfterExit=yes
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
