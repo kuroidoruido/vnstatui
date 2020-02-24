@@ -9,11 +9,11 @@ if [ -f /usr/bin/vnstatui ]; then
   systemctl stop vnstatui@${vnstat_iface[0]}.service 2>&1 >> /dev/null
   systemctl daemon-reload
   rm -rf /usr/lib/systemd/system/vnstatui@.service
-  rm -rf /tmp/vnstatui
 fi
 echo
 
 # install program
+go build vnstatui.go
 cp -rf vnstatui /usr/bin/
 chmod +x /usr/bin/vnstatui
 

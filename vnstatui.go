@@ -26,9 +26,9 @@ var pagecontent = `<!DOCTYPE html>
 </head>
 <body>
   <img src="/img/vnstat-summary.png"/>
-  <img src="/img/vnstat-hourly.png"/>
   <img src="/img/vnstat-daily.png"/>
-  <img src="/img/vnstat-monthly.png"/>
+  <img src="/img/vnstat-hourly.png"/>
+  <img src="/img/vnstat-five-minutes.png"/>
 </body>
 </html>`
 
@@ -36,10 +36,10 @@ var views = []view{
   view{arg:"-s",img:"vnstat-summary.png"},
   view{arg:"-h",img:"vnstat-hourly.png"},
   view{arg:"-d",img:"vnstat-daily.png"},
-  view{arg:"-m",img:"vnstat-monthly.png"},
+  view{arg:"-5",img:"vnstat-five-minutes.png"},
 }
 
-var iface = "eth0"
+var iface = "enp3s0"
 var command = "vnstati"
 var commandArgsList = make([][]string,4)
 
