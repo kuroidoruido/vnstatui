@@ -29,6 +29,7 @@ var pagecontent = `<!DOCTYPE html>
   <img src="/img/vnstat-daily.png"/>
   <img src="/img/vnstat-hourly.png"/>
   <img src="/img/vnstat-five-minutes.png"/>
+  <img src="/img/vnstat-hour-graph.png"/>
 </body>
 </html>`
 
@@ -37,6 +38,7 @@ var views = []view{
   view{arg:"-h",img:"vnstat-hourly.png"},
   view{arg:"-d",img:"vnstat-daily.png"},
   view{arg:"-5",img:"vnstat-five-minutes.png"},
+  view{arg:"-hg",img:"vnstat-hour-graph.png"},
 }
 
 var iface = "enp3s0"
@@ -44,7 +46,7 @@ var command = "vnstati"
 var commandArgsList = make([][]string,4)
 
 func handler(w http.ResponseWriter, r *http.Request) {
-  os.MkdirAll("/tmp/vnstat-webdaemon/img", os.ModePerm);
+//  os.MkdirAll("/tmp/vnstat-webdaemon/img", os.ModePerm);
   for _, args := range commandArgsList {
     cmd := exec.Command(command, args...)
     if err := cmd.Run(); err != nil {
@@ -62,12 +64,12 @@ func main() {
 
   // init commandArgsList
   for _,view := range views {
-    commandArgsList = append(commandArgsList,[]string{view.arg, "-i", iface, "-o", "/tmp/vnstat-webdaemon/img/"+view.img})
+    commandArgsList = append(commandArgsList,[]string{view.arg, "-i", iface, "-o", "/home/vnstat-webdaemon/img/"+view.img})
   }
 
   fmt.Println("Running...")
 
-  http.Handle("/img/", http.FileServer(http.Dir("/tmp/vnstat-webdaemon")))
+  http.Handle("/img/", http.FileServer(http.Dir("/home/vnstat-webdaemon")))
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":7991", nil)
 }
