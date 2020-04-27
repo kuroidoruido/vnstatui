@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vnstat_iface=$(ls /var/lib/vnstat)
+vnstat_iface=$(ip route show to match 8.8.8.8 | grep default -m 1 | awk '{print $5}')
 
 # uninstall eventually already installed vnstatui
 if [ -f /usr/bin/vnstatui ]; then
