@@ -4,23 +4,25 @@ vnstat_iface=$(ip route show to match 8.8.8.8 | grep default -m 1 | awk '{print 
 
 # uninstall eventually already installed vnstatui
 if [ -f /usr/bin/vnstatui ]; then
-  rm -rf /usr/bin/vnstatui
-  systemctl disable vnstatui@${vnstat_iface[0]}.service 2>&1 >> /dev/null
-  systemctl stop vnstatui@${vnstat_iface[0]}.service 2>&1 >> /dev/null
+  # systemctl disable --now vnstatui@${vnstat_iface[0]}.service 2>&1 >> /dev/null
+#  systemctl stop vnstatui@${vnstat_iface[0]}.service 2>&1 >> /dev/null
   systemctl daemon-reload
+  killall vnstatui
+  rm -rf /usr/bin/vnstatui
   rm -rf /usr/lib/systemd/system/vnstatui@.service
-  rm -rf /tmp/vnstatui
+  rm -rf /usr/lib/systemd/system/vnstatui.service
 fi
-echo
 
 # install program
+go build vnstatui.go
 cp -rf vnstatui /usr/bin/
 chmod +x /usr/bin/vnstatui
 
 # install systemd service
 cp -rf vnstatui@.service /usr/lib/systemd/system/
+cp -rf vnstatui.service /usr/lib/systemd/system/
 
 # start and enable service
 systemctl daemon-reload
-systemctl enable vnstatui@${vnstat_iface[0]}.service
-systemctl start vnstatui@${vnstat_iface[0]}.service
+systemctl enable --now vnstatui.service
+systemctl enable --now vnstatui.service
